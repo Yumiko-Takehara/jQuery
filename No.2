@@ -1,0 +1,338 @@
+課題1.jQueryオブジェクトを削除するメソッドを調べ、<h2>を非表示(hide)ではなく、削除してみましょう。
+
+
+
+
+js_test02.html
+
+
+
+<<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      .title {
+        text-decoration: underline;
+      }
+      .list {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>jQueryの基本</h1>
+    <h2>HTML/CSSとJavaScriptの基本的な構文について理解していること</h2>
+    <ul id="index" class="list">
+      <li>jQueryのはじめ方</li>
+      <li>セレクタ</li>
+      <li>css</li>
+    </ul>
+    <!-- jQueryの読み込み -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  
+    <!-- 自作JavaScriptの読み込み -->
+    <script src="test02.js"></script>
+  </body>
+  </html>
+
+
+  
+
+ test02.js 
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+    $('h2').remove();
+  });
+})(jQuery, window);
+
+
+
+結果↓
+
+
+
+jQueryの基本
+* 		jQueryのはじめ方
+* 		セレクタ
+* 		css
+
+
+
+
+
+
+
+課題２.#indexにtext()メソッドとhtml()メソッド(ともにパラメータ無し)を実行して、その違いについて比べてみましょう。
+
+
+
+
+
+ js_test02.htmlの内容を下記のようにして
+
+
+
+</style>
+  </head>
+  <body>
+    <h1>jQueryの基本</h1>
+    <h2>HTML/CSSとJavaScriptの基本的な構文について理解していること</h2>
+    <p>おはよう</p>
+    <p>こんにちは</p>
+    <ul id="index" class="list">
+      <li>jQueryのはじめ方</li>
+      <li>セレクタ</li>
+      <li>css</li>
+    </ul>
+    <!-- jQueryの読み込み -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  
+    <!-- 自作JavaScriptの読み込み -->
+    <script src="test02.js"></script>
+  </body>
+  </html>
+  
+
+
+
+test02.js 下記のようにして結果を表示すると
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+    
+    var title = $('p').html();
+    alert(title);
+  });
+})(jQuery, window);
+
+
+
+「おはよう」と表示される。
+
+
+
+test02.js 下記のようにして結果を表示すると
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+    var title = $('p').text();
+    
+    alert(title);
+  });
+})(jQuery, window);
+
+
+「おはようこんにちは」と表示される。
+
+
+
+test02.js 下記のようにして結果を表示すると
+
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+    var title = $(‘p’).text();
+    var title = $(‘p’).html();
+    alert(title);
+  });
+})(jQuery, window);
+
+
+結果は「おはよう」のみ表示される。
+
+
+以上の結果から
+
+・対象の要素に「html()」を実行すると中身がすべて上書きされる
+・.text();と.html();を並べて書くと.html();の内容の方が優先して表示される。
+・「html()」は最初に合致した要素のテキスト文字だけを取得するが、「text()」は合致した要素すべてを取得している。
+・「text()」で要素を追加すると、すべて文字列として追加される
+
+
+
+他にも
+
+
+<body>
+<div>
+    <h1>タイトル</h1>
+    <p>サンプルテキスト</p>
+    <a href="#">リンク</a>
+</div>
+ 
+<script>
+    $('div').html('<p>こんにちは</p>');
+</script>
+</body>
+
+実行後のHTML
+
+<div>
+    <p>こんにちは</p>
+</div>
+
+
+
+この例では、div要素内に「h1要素・p要素・a要素」がそれぞれ配置されている。
+この状態でdiv要素に対して「html('<p>こんにちは</p>')」と記述されている。
+すると、実行後のHTMLを見るとdiv要素内がhtml()で指定したp要素に入れ替わっていることがわかる。
+
+
+
+「text()」を使って要素を追加すると
+
+<body>
+<div>
+    <p>おはよう</p>
+</div>
+ 
+<script>
+    $('div').text('<h1>タイトル</h1>');
+</script>
+</body>
+
+
+
+「html()」の場合はh1要素としてdivの中身が書き換わる。
+ところが、「text()」の場合は文字列として「<h1>タイトル</h1>」がそのまま表示されるだけ。
+つまり、HTML要素として認識されないという点に注意が必要。
+
+
+
+
+
+
+
+課題3.子要素を追加するappendというメソッドについて調べ、ul#indexの最後に<li>メソッド</li>を追加してみましょう。
+
+
+
+
+<body>
+<div>
+    <p>おはよう</p>
+</div>
+ 
+<script>
+    $('div').append('<p>サンプルテキスト</p>');
+</script>
+</body>
+
+
+
+実行後のHTML
+
+
+<div>
+    <p>おはよう</p>
+    <p>サンプルテキスト</p>
+</div>
+
+
+
+「html()」は中身を上書きしたが、「append()」は元々あったp要素の次に指定の要素が配置されている。
+これこそが大きな違いで、「append()」は対象要素内の末尾に指定した要素を追加するメソッドであるといえる。
+
+
+
+
+
+ul#indexの最後に<li>メソッド</li>を追加すると
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+    var title = $('ul').append('<li>メソッド</li>');
+  
+    alert(title);
+  });
+})(jQuery, window);
+
+
+
+下記のような結果になる。
+
+
+
+jQueryの基本
+HTML/CSSとJavaScriptの基本的な構文について理解していること
+おはよう
+こんにちは
+* 		jQueryのはじめ方
+* 		セレクタ
+* 		css
+* 		メソッド
+
+
+
+
+
+課題4.ul#indexの子要素<li>それぞれ文字列の長さをalertしてみましょう。
+
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+  $('#index').find('li').each(function() {
+    alert($(this).text().length);
+  });
+  });
+})(jQuery, window);
+
+
+結果はそれぞれ11,4,3,と表示される。
+
+
+
+
+
+課題5.4.でalertではなく、各文字列の最後にその長さを追加してみましょう。例：jQueryのはじめ方[11文字]
+
+
+
+
+(function($, window) {
+  $(function() {
+    // この中に処理を書きます
+  $('#index').find('li').eq(0).html('jQueryのはじめ方<span class="title">[11文字]</span>');
+  $('#index').find('li').eq(1).html('セレクタ<span class="title">[4文字]</span>');
+  $('#index').find('li').eq(2).html('css<span class="title">[3文字]</span>');
+});
+})(jQuery, window);
+
+
+
+
+
+下記のような結果になりました。
+
+
+
+
+
+jQueryの基本
+HTML/CSSとJavaScriptの基本的な構文について理解していること
+おはよう
+こんにちは
+* 		jQueryのはじめ方[11文字]
+* 		セレクタ[4文字]
+* 		css[3文字]
+
+
